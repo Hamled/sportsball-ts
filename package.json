@@ -1,0 +1,9 @@
+{
+  "name": "discord-rp-bot",
+  "version": "1.0.0",
+  "description": "Discord bot to track play-by-post role-playing games",
+  "repository": "https://github.com/Hamled/discord-rp-bot",
+  "author": "Charles Ellis",
+  "license": "MIT",
+  "private": true
+}
