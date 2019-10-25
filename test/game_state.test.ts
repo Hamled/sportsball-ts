@@ -12,12 +12,39 @@ describe('gameState', () => {
       // but I suppose there should be something
       expect(state).toBeDefined();
     });
+
+    it('with the away team having zero points', () => {
+      expect(state.away).toBe(0);
+    });
+
+    it('with the home team having zero points', () => {
+      expect(state.home).toBe(0);
+    });
+  });
+
+  describe('called with invalid game state', () => {
+    const initState = gameState();
+
+    it('throws an error when away team score is negative', () => {
+      expect(() => {
+        gameState({...initState, away: -1});
+      }).toThrow(Error);
+    });
+
+    it('throws an error when home team score is negative', () => {
+      expect(() => {
+        gameState({...initState, home: -1});
+      }).toThrow(Error);
+    });
   });
 
   describe('called without a current player score', () => {
     it('returns the same state', () => {
       const initState = gameState();
-      const someState: GameState = {};
+      const someState: GameState = {
+        away: 5,
+        home: 2,
+      };
 
       let retState = gameState(initState);
       expect(retState).toBe(initState);
