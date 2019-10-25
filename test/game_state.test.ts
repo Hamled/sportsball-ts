@@ -28,6 +28,10 @@ describe('gameState', () => {
     it('with the bases being empty', () => {
       expect(state.turn.bases.every(b => !b)).toBeTruthy();
     });
+
+    it('with the number of outs being zero', () => {
+      expect(state.turn.outs).toBe(0);
+    });
   });
 
   describe('called with invalid game state', () => {
@@ -57,6 +61,14 @@ describe('gameState', () => {
         }).toThrow(Error);
       });
     });
+
+    it('throws an error when outs is negative or above 2', () => {
+      [-1, 3].forEach(outs => {
+        expect(() => {
+          gameState({...initState, turn: {...initState.turn, outs}});
+        }).toThrow(Error);
+      });
+    });
   });
 
   describe('called without a current player score', () => {
@@ -68,6 +80,7 @@ describe('gameState', () => {
         turn: {
           team: Team.Home,
           bases: [false, true, true],
+          outs: 1
         }
       };
 
@@ -105,9 +118,9 @@ describe('gameState', () => {
   };
 
   const testCases = [gameState(), {
-    away: 1, home: 3, turn: {team: Team.Home, bases: []}
+    away: 1, home: 3, turn: {team: Team.Home, bases: [], outs: 2}
   },{
-    away: 9, home: 2, turn: {team: Team.Away, bases: []}
+    away: 9, home: 2, turn: {team: Team.Away, bases: [], outs: 1}
   }];
 
   const scoringTestSuite = (playerScore: number) =>
