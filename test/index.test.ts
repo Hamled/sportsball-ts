@@ -20,6 +20,9 @@ const fakeReducerAdder = (state?: ScoredGameState, score?: number) => {
   return {away: state.away + score, home: state.home + score * 2};
 };
 
+// For checking the explicit interaction of Sportsball with the reducer
+const mockReducer = jest.fn<ScoredGameState, [ScoredGameState?, number?]>(fakeReducerConstant);
+
 describe('Sportsball', () => {
   describe('#getScore', () => {
     it('is defined', () => {
@@ -82,6 +85,50 @@ describe('Sportsball', () => {
     it('is defined', () => {
       const game = new Sportsball(fakeReducerConstant);
       expect(game.addEntry).toBeDefined();
+    });
+  });
+
+  describe('interaction with reducer', () => {
+    const entries = [3, 0, 0, 3, 1, 4, 2, 4];
+    let game;
+    beforeEach(() => {
+      mockReducer.mockClear();
+      game = new Sportsball(mockReducer);
+
+      // Use all of the functionality at least once
+      entries.forEach(e => game.addEntry(e));
+      game.getScore();
+    });
+
+    it('calls the reducer once without arguments', () => {
+      expect(mockReducer).toHaveBeenCalled();
+      expect(mockReducer).toHaveBeenNthCalledWith(1);
+    });
+
+    it('calls the reducer once for each entry', () => {
+      // Plus one for the initial call without arguments
+      expect(mockReducer).toHaveBeenCalledTimes(entries.length + 1);
+    });
+
+    it('passes in the previous return value as state', () => {
+      const calls = mockReducer.mock.calls.slice(1); // Skip first call
+      const results = mockReducer.mock.results;
+
+      calls.forEach((args, nth) => {
+        const state = args[0];
+
+        expect(state).toEqual(results[nth].value);
+      });
+    });
+
+    it('passes in the entry\'s value as score', () => {
+      const calls = mockReducer.mock.calls.slice(1); // Skip first call
+
+      calls.forEach((args, nth) => {
+        const score = args[1];
+
+        expect(score).toEqual(entries[nth]);
+      });
     });
   });
 });
