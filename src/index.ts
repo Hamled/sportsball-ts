@@ -12,7 +12,7 @@ export class Sportsball {
     return `Home: ${state.home} Away: ${state.away}`;
   }
 
-  addEntry(): void {
-    this.entries.push(0);
+  addEntry(score: number): void {
+    this.entries.push(score);
   }
 }
