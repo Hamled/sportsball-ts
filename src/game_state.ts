@@ -40,13 +40,17 @@ const countBases = (state: GameState): number => {
   return state.turn.bases.filter(b => b).length;
 };
 
+const opposingTeam = (team: Team): Team => {
+  return team == Team.Home ? Team.Away : Team.Home;
+}
+
 export const gameState = (state?: GameState, playerScore?: number): GameState => {
   if(!state) return initialState();
   if(!isValidState(state)) {
     throw new Error(`gameState called with invalid game state: ${state}`);
   }
 
-  if(!playerScore) return state;
+  if(playerScore == undefined) return state;
   if(!Number.isInteger(playerScore) || playerScore < 0 || playerScore > 4) {
     throw new Error(`gameState called with invalid player score: ${playerScore}`);
   }
@@ -87,6 +91,25 @@ export const gameState = (state?: GameState, playerScore?: number): GameState =>
 
     // If bases are loaded, one player gets a run
     newScore = count == 3 ? 1 : 0;
+  } else if(playerScore == 0) {
+    // Increment the number of outs
+    const outs = newState.turn.outs + 1;
+
+    if(outs == 3) {
+      // Change teams if number of outs is 3
+      newState = {
+        ...newState,
+        turn: {
+          ...newState.turn,
+          team: opposingTeam(newState.turn.team),
+          bases: [false, false, false],
+          outs: 0
+        }
+      };
+    } else {
+      // Otherwise keep track of the new number of outs
+      newState = {...newState, turn: {...newState.turn, outs}};
+    }
   }
 
   if(state.turn.team == Team.Home) {

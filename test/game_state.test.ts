@@ -342,4 +342,71 @@ describe('gameState', () => {
       });
     });
   });
+
+  describe('called with player score of 0', () => {
+    const scoring0TestSuite = state => {
+      it('does not change home team score', () => {
+        const prevScore = teamScore(state, Team.Home);
+
+        const newState = gameState(state, 0);
+
+        const newScore = teamScore(newState, Team.Home);
+        expect(newScore).toEqual(prevScore);
+      });
+
+      it('does not change other team score', () => {
+        const prevScore = teamScore(state, Team.Away);
+
+        const newState = gameState(state, 0);
+
+        const newScore = teamScore(newState, Team.Away);
+        expect(newScore).toEqual(prevScore);
+      });
+
+      describe('with less than two outs', () => {
+        [0, 1].forEach(outs => {
+          const prevState = {...state, turn: {...state.turn, outs}};
+
+          it('increments the number of outs', () => {
+            const newState = gameState(prevState, 0);
+
+            expect(newState.turn.outs).toEqual(prevState.turn.outs + 1);
+          });
+
+          it('does not change bases', () => {
+            const newState = gameState(prevState, 0);
+
+            expect(newState.turn.bases).toEqual(prevState.turn.bases);
+          });
+        });
+      });
+
+      describe('with two outs', () => {
+        const prevState = {...state, turn: {...state.turn, outs: 2}};
+
+        it('changes the current team', () => {
+          const newState = gameState(prevState, 0);
+
+          expect(newState.turn.team).not.toEqual(prevState.turn.team);
+        });
+
+        it('clears the bases', () => {
+          const newState = gameState(prevState, 0);
+
+          expect(newState.turn.bases).toEqual([false, false, false]);
+        });
+
+        it('resets the number of outs', () => {
+          const newState = gameState(prevState, 0);
+
+          expect(newState.turn.outs).toEqual(0);
+        });
+      });
+    };
+
+    // Run the above test suite for all of our test cases
+    testCases.forEach(state => {
+      scoring0TestSuite(state);
+    });
+  });
 });
