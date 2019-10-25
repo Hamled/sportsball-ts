@@ -100,17 +100,23 @@ describe('gameState', () => {
     return team == Team.Home ? state.home : state.away;
   };
 
+  const withBases = (state: GameState, bases: boolean[]): GameState => {
+    return {...state, turn: {...state.turn, bases}};
+  };
+
   describe('called with player score of 4', () => {
     const playerScore = 4;
 
     const states = [gameState(), {
-      away: 1, home: 3, turn: {team: Team.Home, bases: [false, false, false]}
+      away: 1, home: 3, turn: {team: Team.Home, bases: []}
     },{
-      away: 0, home: 10, turn: {team: Team.Away, bases: [false, false, false]}
+      away: 0, home: 10, turn: {team: Team.Away, bases: []}
     }];
 
     describe('when bases are empty', () => {
-      states.forEach(state => {
+      const bases = [false, false, false];
+
+      states.map(s => withBases(s, bases)).forEach(state => {
         describe(`when away is ${state.away} and home is ${state.home}`, () => {
           const prevTeam = state.turn.team;
 
