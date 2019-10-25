@@ -113,19 +113,17 @@ describe('gameState', () => {
       away: 0, home: 10, turn: {team: Team.Away, bases: []}
     }];
 
-    describe('when bases are empty', () => {
-      const bases = [false, false, false];
-
+    const scoring4TestSuite = (bases: boolean[], addPoints: number): void => {
       states.map(s => withBases(s, bases)).forEach(state => {
         describe(`when away is ${state.away} and home is ${state.home}`, () => {
           const prevTeam = state.turn.team;
 
-          it(`adds one to current team (${teamName(state.turn.team)}) score`, () => {
+          it(`adds ${addPoints} to current team (${teamName(state.turn.team)}) score`, () => {
             const prevScore = teamScore(state, prevTeam);
 
             const newState = gameState(state, playerScore);
 
-            expect(teamScore(newState, prevTeam)).toEqual(prevScore + 1);
+            expect(teamScore(newState, prevTeam)).toEqual(prevScore + addPoints);
           });
 
           it('does not change non-current team score', () => {
@@ -150,6 +148,10 @@ describe('gameState', () => {
           });
         });
       });
+    };
+
+    describe('when bases are empty', () => {
+      scoring4TestSuite([false, false, false], 1); // Should add one point
     });
   });
 });
