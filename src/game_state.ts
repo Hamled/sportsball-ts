@@ -48,32 +48,22 @@ export const gameState = (state?: GameState, playerScore?: number): GameState =>
     throw new Error(`gameState called with invalid player score: ${playerScore}`);
   }
 
-  const team = state.turn.team;
   let newState = state;
+  let newScore = 0;
   if(playerScore == 4) {
     // Always clears bases
     const bases = [false, false, false];
     newState = {...newState, turn: {...newState.turn, bases}};
 
     // Everyone on-base gets a run, plus the hitter
-    const newScore = countBases(state) + 1;
-    if(team == Team.Home) {
-      newState = {...newState, home: state.home + newScore};
-    } else {
-      newState = {...newState, away: state.away + newScore};
-    }
+    newScore = countBases(state) + 1;
   } else if(playerScore == 3) {
     // Always leaves one player on third base
     const bases = [false, false, true];
     newState = {...newState, turn: {...newState.turn, bases}};
 
     // Everyone on-base gets a run
-    const newScore = countBases(state);
-    if(team == Team.Home) {
-      newState = {...newState, home: state.home + newScore};
-    } else {
-      newState = {...newState, away: state.away + newScore};
-    }
+    newScore = countBases(state);
   } else if(playerScore == 2) {
     // Always leaves nobody on first, and player on second
     // may leave player on third
@@ -82,13 +72,13 @@ export const gameState = (state?: GameState, playerScore?: number): GameState =>
     newState = {...newState, turn: {...newState.turn, bases}};
 
     // All but one on-base player gets a run
-    const newScore = Math.max(countBases(state) - 1, 0);
-    if(team == Team.Home) {
-      newState = {...newState, home: state.home + newScore};
-    } else {
-      newState = {...newState, away: state.away + newScore};
-    }
+    newScore = Math.max(countBases(state) - 1, 0);
   }
 
+  if(state.turn.team == Team.Home) {
+    newState = {...newState, home: state.home + newScore};
+  } else {
+    newState = {...newState, away: state.away + newScore};
+  }
   return newState;
 }
