@@ -33,6 +33,10 @@ const isValidState = (state: GameState): boolean => {
   return true;
 }
 
+const countBases = (state: GameState): number => {
+  return state.turn.bases.filter(b => b).length;
+};
+
 export const gameState = (state?: GameState, playerScore?: number): GameState => {
   if(!state) return initialState();
   if(!isValidState(state)) {
@@ -45,13 +49,20 @@ export const gameState = (state?: GameState, playerScore?: number): GameState =>
   }
 
   const team = state.turn.team;
+  let newState = state;
   if(playerScore == 4) {
+    // Always clears bases
+    const bases = [false, false, false];
+    newState = {...state, turn: {...state.turn, bases}};
+
+    // Everyone on base gets a run
+    const newScore = countBases(state) + 1;
     if(team == Team.Home) {
-      return {...state, home: state.home + 1};
+      return {...newState, home: state.home + newScore};
     } else {
-      return {...state, away: state.away + 1};
+      return {...newState, away: state.away + newScore};
     }
   }
 
-  return state;
+  return newState;
 }

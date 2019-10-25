@@ -153,5 +153,33 @@ describe('gameState', () => {
     describe('when bases are empty', () => {
       scoring4TestSuite([false, false, false], 1); // Should add one point
     });
+
+    describe('when bases are loaded', () => {
+      scoring4TestSuite([true, true, true], 4); // Should add four points
+    });
+
+    describe('when one player on base', () => {
+      const basesStates = [
+        [true, false, false],
+        [false, true, false],
+        [false, false, true]
+      ];
+
+      basesStates.forEach(bases => {
+        scoring4TestSuite(bases, 2); // Should add two points
+      });
+    });
+
+    describe('when two players on base', () => {
+      const basesStates = [
+        [true, true, false],
+        [true, false, true],
+        [false, true, true]
+      ];
+
+      basesStates.forEach(bases => {
+        scoring4TestSuite(bases, 3); // Should add three points
+      });
+    });
   });
 });
