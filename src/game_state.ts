@@ -53,14 +53,14 @@ export const gameState = (state?: GameState, playerScore?: number): GameState =>
   if(playerScore == 4) {
     // Always clears bases
     const bases = [false, false, false];
-    newState = {...state, turn: {...state.turn, bases}};
+    newState = {...newState, turn: {...newState.turn, bases}};
 
-    // Everyone on base gets a run
+    // Everyone on base gets a run, plus the hitter
     const newScore = countBases(state) + 1;
     if(team == Team.Home) {
-      return {...newState, home: state.home + newScore};
+      newState = {...newState, home: state.home + newScore};
     } else {
-      return {...newState, away: state.away + newScore};
+      newState = {...newState, away: state.away + newScore};
     }
   }
 
