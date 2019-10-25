@@ -55,8 +55,20 @@ export const gameState = (state?: GameState, playerScore?: number): GameState =>
     const bases = [false, false, false];
     newState = {...newState, turn: {...newState.turn, bases}};
 
-    // Everyone on base gets a run, plus the hitter
+    // Everyone on-base gets a run, plus the hitter
     const newScore = countBases(state) + 1;
+    if(team == Team.Home) {
+      newState = {...newState, home: state.home + newScore};
+    } else {
+      newState = {...newState, away: state.away + newScore};
+    }
+  } else if(playerScore == 3) {
+    // Always leaves one player on third base
+    const bases = [false, false, true];
+    newState = {...newState, turn: {...newState.turn, bases}};
+
+    // Everyone on-base gets a run
+    const newScore = countBases(state);
     if(team == Team.Home) {
       newState = {...newState, home: state.home + newScore};
     } else {
