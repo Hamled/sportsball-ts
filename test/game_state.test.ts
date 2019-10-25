@@ -24,6 +24,10 @@ describe('gameState', () => {
     it('with the current team being away', () => {
       expect(state.turn.team).toBe(Team.Away);
     });
+
+    it('with the bases being empty', () => {
+      expect(state.turn.bases.every(b => !b)).toBeTruthy();
+    });
   });
 
   describe('called with invalid game state', () => {
@@ -40,6 +44,19 @@ describe('gameState', () => {
         gameState({...initState, home: -1});
       }).toThrow(Error);
     });
+
+    it('throws an error when bases is not three booleans', () => {
+      [
+        [], // No bases
+        [false], // One base
+        [true, true], // Two bases
+        [false, true, true, false] // Too many bases
+      ].forEach(bases => {
+        expect(() => {
+          gameState({...initState, turn: {...initState.turn, bases}});
+        }).toThrow(Error);
+      });
+    });
   });
 
   describe('called without a current player score', () => {
@@ -50,6 +67,7 @@ describe('gameState', () => {
         home: 2,
         turn: {
           team: Team.Home,
+          bases: [false, true, true],
         }
       };
 
@@ -86,9 +104,9 @@ describe('gameState', () => {
     const playerScore = 4;
 
     const states = [gameState(), {
-      away: 1, home: 3, turn: {team: Team.Home}
+      away: 1, home: 3, turn: {team: Team.Home, bases: [false, false, false]}
     },{
-      away: 0, home: 10, turn: {team: Team.Away}
+      away: 0, home: 10, turn: {team: Team.Away, bases: [false, false, false]}
     }];
 
     states.forEach(state => {
@@ -116,6 +134,12 @@ describe('gameState', () => {
           const newState = gameState(state, playerScore);
 
           expect(newState.turn.team).toEqual(state.turn.team);
+        });
+
+        it('clears the bases', () => {
+          const newState = gameState(state, playerScore);
+
+          expect(newState.turn.bases).toEqual([false, false, false]);
         });
       });
     });

@@ -8,6 +8,7 @@ export interface GameState {
   home: number;
   turn: {
     team: Team;
+    bases: boolean[];
   };
 }
 
@@ -18,6 +19,7 @@ const initialState = (): GameState => {
     home: 0,
     turn: {
       team: Team.Away,
+      bases: [false, false, false],
     }
   };
 };
@@ -25,6 +27,8 @@ const initialState = (): GameState => {
 const isValidState = (state: GameState): boolean => {
   if(state.away < 0) return false;
   if(state.home < 0) return false;
+
+  if(state.turn.bases.length != 3) return false;
 
   return true;
 }
