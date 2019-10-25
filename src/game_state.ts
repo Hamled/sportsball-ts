@@ -40,5 +40,14 @@ export const gameState = (state?: GameState, playerScore?: number): GameState =>
     throw new Error(`gameState called with invalid player score: ${playerScore}`);
   }
 
-  return state; // Gotta return something...
+  const team = state.turn.team;
+  if(playerScore == 4) {
+    if(team == Team.Home) {
+      return {...state, home: state.home + 1};
+    } else {
+      return {...state, away: state.away + 1};
+    }
+  }
+
+  return state;
 }

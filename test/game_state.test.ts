@@ -72,4 +72,52 @@ describe('gameState', () => {
       });
     });
   });
+
+  // Helper functions
+  const teamName = (team: Team): string => {
+    return team == Team.Home ? 'home' : 'away';
+  };
+
+  const teamScore = (state: GameState, team: Team): number => {
+    return team == Team.Home ? state.home : state.away;
+  };
+
+  describe('called with player score of 4', () => {
+    const playerScore = 4;
+
+    const states = [gameState(), {
+      away: 1, home: 3, turn: {team: Team.Home}
+    },{
+      away: 0, home: 10, turn: {team: Team.Away}
+    }];
+
+    states.forEach(state => {
+      describe(`when away is ${state.away} and home is ${state.home}`, () => {
+        const prevTeam = state.turn.team;
+
+        it(`adds one to current team (${teamName(state.turn.team)}) score`, () => {
+          const prevScore = teamScore(state, prevTeam);
+
+          const newState = gameState(state, playerScore);
+
+          expect(teamScore(newState, prevTeam)).toEqual(prevScore + 1);
+        });
+
+        it('does not change non-current team score', () => {
+          const otherTeam = prevTeam == Team.Home ? Team.Away : Team.Home;
+          const prevScore = teamScore(state, otherTeam);
+
+          const newState = gameState(state, playerScore);
+
+          expect(teamScore(newState, otherTeam)).toEqual(prevScore);
+        });
+
+        it('keeps same team current', () => {
+          const newState = gameState(state, playerScore);
+
+          expect(newState.turn.team).toEqual(state.turn.team);
+        });
+      });
+    });
+  });
 });
