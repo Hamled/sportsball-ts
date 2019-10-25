@@ -73,6 +73,17 @@ export const gameState = (state?: GameState, playerScore?: number): GameState =>
 
     // All but one on-base player gets a run
     newScore = Math.max(countBases(state) - 1, 0);
+  } else if(playerScore == 1) {
+    const count = countBases(state);
+
+    // Always leaves player on first, maybe player on other bases
+    const onThird = count > 1 || state.turn.bases[2];
+    const onSecond = count > 1 || state.turn.bases[1] || state.turn.bases[0];
+    const bases = [true, onSecond, onThird];
+    newState = {...newState, turn: {...newState.turn, bases}};
+
+    // If bases are loaded, one player gets a run
+    newScore = count == 3 ? 1 : 0;
   }
 
   if(state.turn.team == Team.Home) {
