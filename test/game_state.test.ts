@@ -13,4 +13,17 @@ describe('gameState', () => {
       expect(state).toBeDefined();
     });
   });
+
+  describe('called without a current player score', () => {
+    it('returns the same state', () => {
+      const initState = gameState();
+      const someState: GameState = {};
+
+      let retState = gameState(initState);
+      expect(retState).toBe(initState);
+
+      retState = gameState(someState);
+      expect(retState).toBe(someState);
+    });
+  });
 });
