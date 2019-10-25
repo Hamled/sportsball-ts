@@ -47,7 +47,19 @@ describe('Sportsball integration', () => {
     // Final score: 46-42 - Home team wins
   ];
 
+  // Helper functions
+  const flatten = (arrays: any[]): any[] => [].concat.apply([], arrays);
+
   it('should return a score of 0-0 after no turns', () => {
     expect(game.getScore()).toEqual('Home: 0 Away: 0');
+  });
+
+  it('should return correct score after 1 inning', () => {
+    const turns = flatten(testGame.slice(0, 1));
+    turns.forEach(score => {
+      game.addEntry(score);
+    });
+
+    expect(game.getScore()).toEqual('Home: 4 Away: 3');
   });
 });
