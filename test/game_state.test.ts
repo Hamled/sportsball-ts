@@ -26,4 +26,16 @@ describe('gameState', () => {
       expect(retState).toBe(someState);
     });
   });
+
+  describe('called with invalid player score', () => {
+    const state = gameState();
+
+    it('throws an error', () => {
+      [-1, 5, 1.5].forEach(score => {
+        expect(() => {
+          gameState(state, score);
+        }).toThrow(Error);
+      });
+    });
+  });
 });
