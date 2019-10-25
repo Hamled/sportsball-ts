@@ -1,6 +1,14 @@
+export enum Team {
+  Home,
+  Away
+}
+
 export interface GameState {
   away: number;
   home: number;
+  turn: {
+    team: Team;
+  };
 }
 
 // Private functions
@@ -8,6 +16,9 @@ const initialState = (): GameState => {
   return {
     away: 0,
     home: 0,
+    turn: {
+      team: Team.Away,
+    }
   };
 };
 

@@ -1,4 +1,4 @@
-import {gameState, GameState} from '../src/game_state';
+import {gameState, GameState, Team} from '../src/game_state';
 
 describe('gameState', () => {
   describe('called without arguments, it returns an initial game state', () => {
@@ -19,6 +19,10 @@ describe('gameState', () => {
 
     it('with the home team having zero points', () => {
       expect(state.home).toBe(0);
+    });
+
+    it('with the current team being away', () => {
+      expect(state.turn.team).toBe(Team.Away);
     });
   });
 
@@ -44,6 +48,9 @@ describe('gameState', () => {
       const someState: GameState = {
         away: 5,
         home: 2,
+        turn: {
+          team: Team.Home,
+        }
       };
 
       let retState = gameState(initState);
