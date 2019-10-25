@@ -8,6 +8,12 @@ const fakeReducerConstant = (_state?: ScoredGameState, _score?: number) => ({
 const fakeReducerFixed = (state: ScoredGameState) =>
   (_state?: ScoredGameState, _score?: number) => state;
 
+// Increments away team score by two, and home team score by one
+const fakeReducerCounter = (state?: ScoredGameState, _score?: number) => {
+  if(!state) return {away: 0, home: 0};
+  return {away: state.away + 2, home: state.home + 1};
+};
+
 describe('Sportsball', () => {
   describe('#getScore', () => {
     it('is defined', () => {
@@ -35,6 +41,19 @@ describe('Sportsball', () => {
 
         expect(game.getScore()).toEqual(`Home: ${state.home} Away: ${state.away}`);
       });
+    });
+
+    it('returns score string impacted by number of entries', () => {
+      const game = new Sportsball(fakeReducerCounter);
+
+      expect(game.getScore()).toEqual('Home: 0 Away: 0');
+
+      // Somehow ES6 lacks a non-hacky way to do this...
+      for(let i = 1; i <= 10; i++) {
+        game.addEntry();
+
+        expect(game.getScore()).toEqual(`Home: ${i} Away: ${i * 2}`);
+      }
     });
   });
 
