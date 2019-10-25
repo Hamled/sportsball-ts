@@ -157,6 +157,14 @@ describe('gameState', () => {
 
             expect(newState.turn.bases).toEqual(newBases);
           });
+
+          it('keeps same number of outs', () => {
+            const prevOuts = state.turn.outs;
+
+            const newState = gameState(state, playerScore);
+
+            expect(newState.turn.outs).toEqual(prevOuts);
+          });
         });
       });
     };
