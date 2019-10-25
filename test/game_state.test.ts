@@ -110,7 +110,7 @@ describe('gameState', () => {
     const states = [gameState(), {
       away: 1, home: 3, turn: {team: Team.Home, bases: []}
     },{
-      away: 0, home: 10, turn: {team: Team.Away, bases: []}
+      away: 9, home: 2, turn: {team: Team.Away, bases: []}
     }];
 
     const scoring4TestSuite = (bases: boolean[], addPoints: number): void => {
