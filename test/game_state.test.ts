@@ -37,16 +37,20 @@ describe('gameState', () => {
   describe('called with invalid game state', () => {
     const initState = gameState();
 
-    it('throws an error when away team score is negative', () => {
-      expect(() => {
-        gameState({...initState, away: -1});
-      }).toThrow(Error);
+    it('throws an error when away team score is not a non-negative integer', () => {
+      [-1, 1.5].forEach(away => {
+        expect(() => {
+          gameState({...initState, away});
+        }).toThrow(Error);
+      });
     });
 
-    it('throws an error when home team score is negative', () => {
-      expect(() => {
-        gameState({...initState, home: -1});
-      }).toThrow(Error);
+    it('throws an error when home team score is not a non-negative integer', () => {
+      [-1, 1.5].forEach(home => {
+        expect(() => {
+          gameState({...initState, home});
+        }).toThrow(Error);
+      });
     });
 
     it('throws an error when bases is not three booleans', () => {
@@ -62,7 +66,7 @@ describe('gameState', () => {
       });
     });
 
-    it('throws an error when outs is negative or above 2', () => {
+    it('throws an error when outs is not an integer from 0-2, inclusive', () => {
       [-1, 3].forEach(outs => {
         expect(() => {
           gameState({...initState, turn: {...initState.turn, outs}});

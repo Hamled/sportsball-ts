@@ -27,11 +27,14 @@ const initialState = (): GameState => {
 };
 
 const isValidState = (state: GameState): boolean => {
-  if(state.away < 0) return false;
-  if(state.home < 0) return false;
+  if(!Number.isInteger(state.away) || state.away < 0) return false;
+  if(!Number.isInteger(state.home) || state.home < 0) return false;
 
   if(state.turn.bases.length != 3) return false;
-  if(state.turn.outs < 0 || state.turn.outs > 2) return false;
+  if(!Number.isInteger(state.turn.outs)
+     || state.turn.outs < 0
+     || state.turn.outs > 2)
+    return false;
 
   return true;
 }
