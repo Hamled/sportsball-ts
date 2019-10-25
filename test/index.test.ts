@@ -37,4 +37,11 @@ describe('Sportsball', () => {
       });
     });
   });
+
+  describe('#addEntry', () => {
+    it('is defined', () => {
+      const game = new Sportsball(fakeReducerConstant);
+      expect(game.addEntry).toBeDefined();
+    });
+  });
 });

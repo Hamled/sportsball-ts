@@ -9,4 +9,6 @@ export class Sportsball {
     const state = this.reducer();
     return `Home: ${state.home} Away: ${state.away}`;
   }
+
+  addEntry(): void {}
 }
