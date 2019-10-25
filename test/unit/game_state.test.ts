@@ -1,4 +1,4 @@
-import {gameState, GameState, Team} from '../src/game_state';
+import {gameState, GameState, Team} from '../../src/game_state';
 
 describe('gameState', () => {
   describe('called without arguments, it returns an initial game state', () => {

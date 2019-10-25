@@ -1,4 +1,4 @@
-import {Sportsball, ScoredGameState} from '../src';
+import {Sportsball, ScoredGameState} from '../../src';
 
 const fakeReducerConstant = (_state?: ScoredGameState, _score?: number) => ({
   away: 999,
