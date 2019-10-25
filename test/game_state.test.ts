@@ -261,4 +261,83 @@ describe('gameState', () => {
       });
     });
   });
+
+  describe('called with player score of 2', () => {
+    const playerScore = 2;
+
+    const states = [gameState(), {
+      away: 1, home: 3, turn: {team: Team.Home, bases: []}
+    },{
+      away: 9, home: 2, turn: {team: Team.Away, bases: []}
+    }];
+
+    const scoring2TestSuite = (bases: boolean[], addPoints: number, newBases: boolean[]): void => {
+      states.map(s => withBases(s, bases)).forEach(state => {
+        describe(`when away is ${state.away} and home is ${state.home}`, () => {
+          const prevTeam = state.turn.team;
+
+          it(`adds ${addPoints} to current team (${teamName(state.turn.team)}) score`, () => {
+            const prevScore = teamScore(state, prevTeam);
+
+            const newState = gameState(state, playerScore);
+
+            expect(teamScore(newState, prevTeam)).toEqual(prevScore + addPoints);
+          });
+
+          it('does not change non-current team score', () => {
+            const otherTeam = prevTeam == Team.Home ? Team.Away : Team.Home;
+            const prevScore = teamScore(state, otherTeam);
+
+            const newState = gameState(state, playerScore);
+
+            expect(teamScore(newState, otherTeam)).toEqual(prevScore);
+          });
+
+          it('keeps same team current', () => {
+            const newState = gameState(state, playerScore);
+
+            expect(newState.turn.team).toEqual(state.turn.team);
+          });
+
+          it('has player on second base, maybe on third', () => {
+            const newState = gameState(state, playerScore);
+
+            expect(newState.turn.bases).toEqual(newBases);
+          });
+        });
+      });
+    };
+
+    describe('when bases are empty', () => {
+      scoring2TestSuite([false, false, false], 0, [false, true, false]);
+    });
+
+    describe('when bases are loaded', () => {
+      scoring2TestSuite([true, true, true], 2, [false, true, true]);
+    });
+
+    describe('when one player on base', () => {
+      const basesStates = [
+        [true, false, false],
+        [false, true, false],
+        [false, false, true]
+      ];
+
+      basesStates.forEach(bases => {
+        scoring2TestSuite(bases, 0, [false, true, true]);
+      });
+    });
+
+    describe('when two players on base', () => {
+      const basesStates = [
+        [true, true, false],
+        [true, false, true],
+        [false, true, true]
+      ];
+
+      basesStates.forEach(bases => {
+        scoring2TestSuite(bases, 1, [false, true, true]);
+      });
+    });
+  });
 });

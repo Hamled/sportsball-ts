@@ -74,6 +74,20 @@ export const gameState = (state?: GameState, playerScore?: number): GameState =>
     } else {
       newState = {...newState, away: state.away + newScore};
     }
+  } else if(playerScore == 2) {
+    // Always leaves nobody on first, and player on second
+    // may leave player on third
+    const onThird = countBases(state) > 0;
+    const bases = [false, true, onThird];
+    newState = {...newState, turn: {...newState.turn, bases}};
+
+    // All but one on-base player gets a run
+    const newScore = Math.max(countBases(state) - 1, 0);
+    if(team == Team.Home) {
+      newState = {...newState, home: state.home + newScore};
+    } else {
+      newState = {...newState, away: state.away + newScore};
+    }
   }
 
   return newState;
