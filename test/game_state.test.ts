@@ -118,9 +118,9 @@ describe('gameState', () => {
   };
 
   const testCases = [gameState(), {
-    away: 1, home: 3, turn: {team: Team.Home, bases: [], outs: 2}
+    away: 1, home: 3, turn: {team: Team.Home, bases: [false, true, true], outs: 2}
   },{
-    away: 9, home: 2, turn: {team: Team.Away, bases: [], outs: 1}
+    away: 9, home: 2, turn: {team: Team.Away, bases: [false, true, false], outs: 1}
   }];
 
   const scoringTestSuite = (playerScore: number) =>
