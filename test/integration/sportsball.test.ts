@@ -62,4 +62,26 @@ describe('Sportsball integration', () => {
 
     expect(game.getScore()).toEqual('Home: 4 Away: 3');
   });
+
+  // Additional innings...
+  const inningScores = [  // After inning...
+    {home:  5, away:  4}, // 2
+    {home:  8, away:  7}, // 3
+    {home: 16, away: 10}, // 4
+    {home: 17, away: 17}, // 5
+    {home: 24, away: 23}, // 6
+    {home: 26, away: 27}, // 7
+    {home: 37, away: 37}, // 8
+  ];
+
+  inningScores.forEach((score, nth) => {
+    it(`should return correct score after ${nth + 2} innings`, () => {
+      const turns = flatten(testGame.slice(0, nth + 2));
+      turns.forEach(score => {
+        game.addEntry(score);
+      });
+
+      expect(game.getScore()).toEqual(`Home: ${score.home} Away: ${score.away}`);
+    });
+  });
 });
