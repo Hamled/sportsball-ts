@@ -84,4 +84,12 @@ describe('Sportsball integration', () => {
       expect(game.getScore()).toEqual(`Home: ${score.home} Away: ${score.away}`);
     });
   });
+
+  it('should return correct score for the entire game', () => {
+    flatten(testGame).forEach(score => {
+      game.addEntry(score);
+    });
+
+    expect(game.getScore()).toEqual('Home: 46 Away: 42');
+  });
 });
