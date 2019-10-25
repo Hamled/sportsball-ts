@@ -104,17 +104,17 @@ describe('gameState', () => {
     return {...state, turn: {...state.turn, bases}};
   };
 
+  const testCases = [gameState(), {
+    away: 1, home: 3, turn: {team: Team.Home, bases: []}
+  },{
+    away: 9, home: 2, turn: {team: Team.Away, bases: []}
+  }];
+
   describe('called with player score of 4', () => {
     const playerScore = 4;
 
-    const states = [gameState(), {
-      away: 1, home: 3, turn: {team: Team.Home, bases: []}
-    },{
-      away: 9, home: 2, turn: {team: Team.Away, bases: []}
-    }];
-
     const scoring4TestSuite = (bases: boolean[], addPoints: number): void => {
-      states.map(s => withBases(s, bases)).forEach(state => {
+      testCases.map(s => withBases(s, bases)).forEach(state => {
         describe(`when away is ${state.away} and home is ${state.home}`, () => {
           const prevTeam = state.turn.team;
 
@@ -186,14 +186,8 @@ describe('gameState', () => {
   describe('called with player score of 3', () => {
     const playerScore = 3;
 
-    const states = [gameState(), {
-      away: 1, home: 3, turn: {team: Team.Home, bases: []}
-    },{
-      away: 9, home: 2, turn: {team: Team.Away, bases: []}
-    }];
-
     const scoring3TestSuite = (bases: boolean[], addPoints: number): void => {
-      states.map(s => withBases(s, bases)).forEach(state => {
+      testCases.map(s => withBases(s, bases)).forEach(state => {
         describe(`when away is ${state.away} and home is ${state.home}`, () => {
           const prevTeam = state.turn.team;
 
@@ -265,14 +259,8 @@ describe('gameState', () => {
   describe('called with player score of 2', () => {
     const playerScore = 2;
 
-    const states = [gameState(), {
-      away: 1, home: 3, turn: {team: Team.Home, bases: []}
-    },{
-      away: 9, home: 2, turn: {team: Team.Away, bases: []}
-    }];
-
     const scoring2TestSuite = (bases: boolean[], addPoints: number, newBases: boolean[]): void => {
-      states.map(s => withBases(s, bases)).forEach(state => {
+      testCases.map(s => withBases(s, bases)).forEach(state => {
         describe(`when away is ${state.away} and home is ${state.home}`, () => {
           const prevTeam = state.turn.team;
 
@@ -344,14 +332,8 @@ describe('gameState', () => {
   describe('called with player score of 1', () => {
     const playerScore = 1;
 
-    const states = [gameState(), {
-      away: 1, home: 3, turn: {team: Team.Home, bases: []}
-    },{
-      away: 9, home: 2, turn: {team: Team.Away, bases: []}
-    }];
-
     const scoring1TestSuite = (bases: boolean[], addPoints: number, newBases: boolean[]): void => {
-      states.map(s => withBases(s, bases)).forEach(state => {
+      testCases.map(s => withBases(s, bases)).forEach(state => {
         describe(`when away is ${state.away} and home is ${state.home}`, () => {
           const prevTeam = state.turn.team;
 
