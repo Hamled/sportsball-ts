@@ -109,37 +109,39 @@ describe('gameState', () => {
       away: 0, home: 10, turn: {team: Team.Away, bases: [false, false, false]}
     }];
 
-    states.forEach(state => {
-      describe(`when away is ${state.away} and home is ${state.home}`, () => {
-        const prevTeam = state.turn.team;
+    describe('when bases are empty', () => {
+      states.forEach(state => {
+        describe(`when away is ${state.away} and home is ${state.home}`, () => {
+          const prevTeam = state.turn.team;
 
-        it(`adds one to current team (${teamName(state.turn.team)}) score`, () => {
-          const prevScore = teamScore(state, prevTeam);
+          it(`adds one to current team (${teamName(state.turn.team)}) score`, () => {
+            const prevScore = teamScore(state, prevTeam);
 
-          const newState = gameState(state, playerScore);
+            const newState = gameState(state, playerScore);
 
-          expect(teamScore(newState, prevTeam)).toEqual(prevScore + 1);
-        });
+            expect(teamScore(newState, prevTeam)).toEqual(prevScore + 1);
+          });
 
-        it('does not change non-current team score', () => {
-          const otherTeam = prevTeam == Team.Home ? Team.Away : Team.Home;
-          const prevScore = teamScore(state, otherTeam);
+          it('does not change non-current team score', () => {
+            const otherTeam = prevTeam == Team.Home ? Team.Away : Team.Home;
+            const prevScore = teamScore(state, otherTeam);
 
-          const newState = gameState(state, playerScore);
+            const newState = gameState(state, playerScore);
 
-          expect(teamScore(newState, otherTeam)).toEqual(prevScore);
-        });
+            expect(teamScore(newState, otherTeam)).toEqual(prevScore);
+          });
 
-        it('keeps same team current', () => {
-          const newState = gameState(state, playerScore);
+          it('keeps same team current', () => {
+            const newState = gameState(state, playerScore);
 
-          expect(newState.turn.team).toEqual(state.turn.team);
-        });
+            expect(newState.turn.team).toEqual(state.turn.team);
+          });
 
-        it('clears the bases', () => {
-          const newState = gameState(state, playerScore);
+          it('clears the bases', () => {
+            const newState = gameState(state, playerScore);
 
-          expect(newState.turn.bases).toEqual([false, false, false]);
+            expect(newState.turn.bases).toEqual([false, false, false]);
+          });
         });
       });
     });
