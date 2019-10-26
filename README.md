@@ -19,6 +19,25 @@ Some aspects of the real game of baseball are not considered:
 * All aspects of batting and pitching are reduced to the outcome number, e.g. a walk is considered the same as a single base hit.
 * The game does not have a specified end point. Innings are not tracked, and the program accepts additional recorded at bat results after nine innings' worth of turns. Likewise, tie scores are also not considered in whether the game ends.
 
+## Design
+One of the concerns that was brought up during discussion of the provided challenge description, was how tightly coupled the `addEntry` and `getScore` functions are. The first function is purely an input to some shared state, and the other is purely an output calculated from the same shared state.
+
+This makes it difficult to achieve "proper" unit tests on each function separately, because the behavior of each function cannot be verified without some interaction from the other. While it was pointed out that this simply means the two functions together form a single unit and thus should be tested in that manner, I felt that would still result in a less than ideal environment for unit testing.
+
+In an attempt to make things more ideal, I designed my implementation with one significant modification to the straight-forward approach. I separated the gameplay logic code from the state-tracking code that records the inputs and generates output based upon them.
+
+Because the state being kept by program overall is a sequence of values, I felt that a natural way to implement the gameplay logic would be a [reducer function](https://en.wikipedia.org/wiki/Reduction_Operator). Generally speaking, reducers are written as pure functions so they operate only on their parameters as input and only have their return value as output. I have found that this is the ideal circumstance for unit testing, and because the gameplay logic is the most complex part of the program it would be good to have a clear and comprehensive set of unit tests for it.
+
+Having extracted the gameplay logic into a separate unit that is tested independently the state-tracking code that lives in `addEntry` and `getScore` is greatly simplified, as are the tests. Most of the testing that I did for this code was to use fake, very simple implementations of the reducer function which didn't implement any gameplay logic.
+
+As such, testing the results of the fake reducers when they were run by the state-tracker was as closer as I could come to ideal unit tests for those functions. I also wrote some tests using a mock reducer to more explicitly verify the stateful code was interacting with the reducer properly, by calling it in the manner that a reducer should be used.
+
+Having now created two separate units, I also needed to write some integration tests to verify that the combination of the stateful code and the stateless reducer function resulted in correctly scoring a sequence of player turns representing a game.
+
+For this I wrote up a test game as a set of nine innings, and I'm happy to say that all of the code worked to pass those tests without any modification. In fact, a couple of tests failed at first and after reviewing my own test cases more thoroughly (scoring each inning on paper instead of in my head this time), I discovered that the failed tests were due to my own mistakes in calculating the number of runs a team had.
+
+That being said, writing some tests which pass the first time isn't generally what TDD is about (at least for unit tests), so I welcome any suggestions on how I could improve my integration testing process.
+
 ## Installation
 ### Prerequisites
 You need to have a recent version of [Node.js](https://nodejs.org) and [NPM](https://npmjs.com).
