@@ -1,15 +1,34 @@
 export enum TurnResult {
+  OUT,
   HOME_RUN
 }
 
+type Team = {points: number, outs: number};
+
 export class Sportsball {
-  private away: number = 0;
+  private away: Team = {points: 0, outs: 0};
+  private home: Team = {points: 0, outs: 0};
+
+  private awayTurn: boolean = true;
 
   getScore(): string {
-    return `Home: 0 Away: ${this.away}`;
+    return `Home: ${this.home.points} Away: ${this.away.points}`;
   }
 
-  addEntry(_result: TurnResult) {
-    this.away++;
+  addEntry(result: TurnResult) {
+    const team = this.playingTeam();
+    if(result == TurnResult.HOME_RUN) {
+      team.points += 1;
+    } else {
+      team.outs += 1;
+    }
+
+    if(team.outs == 3) {
+      this.awayTurn = !this.awayTurn;
+    }
+  }
+
+  private playingTeam(): Team {
+    return this.awayTurn ? this.away : this.home;
   }
 }
