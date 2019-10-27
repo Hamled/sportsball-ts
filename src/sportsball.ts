@@ -1,1 +1,3 @@
-export class Sportsball {}
+export class Sportsball {
+  getScore() {}
+}
