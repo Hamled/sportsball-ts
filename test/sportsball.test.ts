@@ -34,14 +34,24 @@ describe('Sportsball', () => {
       expect(sb.getScore()).toEqual('Home: 0 Away: 1');
     });
 
-    it('with three outs and 1 home run it returns score of 1-0', () => {
+    it('scores outs and home runs', () => {
       const sb = new Sportsball();
       sb.addEntry(TurnResult.OUT);
       sb.addEntry(TurnResult.OUT);
+      sb.addEntry(TurnResult.HOME_RUN);
+      sb.addEntry(TurnResult.OUT);
+      // Away -> 2 runs
+      sb.addEntry(TurnResult.OUT);
       sb.addEntry(TurnResult.OUT);
       sb.addEntry(TurnResult.HOME_RUN);
+      sb.addEntry(TurnResult.OUT);
+      // Home -> 3 runs
 
-      expect(sb.getScore()).toEqual('Home: 1 Away: 0');
+      // Away scores again
+      sb.addEntry(TurnResult.HOME_RUN);
+      sb.addEntry(TurnResult.HOME_RUN);
+
+      expect(sb.getScore()).toEqual('Home: 1 Away: 3');
     });
   });
 });
