@@ -41,13 +41,17 @@ export class Sportsball {
 
   private scoreResult(result: TurnResult, team: Team) {
     if(result == TurnResult.HOME_RUN) {
-      team.points += 1;
+      team.points += this.onBase + 1;
+      this.onBase = 0;
     } else if(this.onBase == 3 && result >= TurnResult.SINGLE) {
-      team.points += 1;
+      team.points += result;
+      this.onBase -= result - TurnResult.SINGLE;
     } else if(this.onBase == 2 && result >= TurnResult.DOUBLE) {
-      team.points += 1;
+      team.points += result - 1;
+      this.onBase -= result - TurnResult.DOUBLE;
     } else if(this.onBase == 1 && result >= TurnResult.TRIPLE) {
-      team.points += 1;
+      team.points += result - 2;
+      this.onBase -= result - TurnResult.TRIPLE;
     } else {
       this.onBase += 1;
     }
