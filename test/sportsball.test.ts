@@ -5,6 +5,12 @@ describe('Sportsball', () => {
     expect(Sportsball).toBeDefined();
   });
 
+  describe('#addEntry', () => {
+    it('is defined', () => {
+      expect(new Sportsball().addEntry).toBeDefined();
+    });
+  });
+
   describe("#getScore", () => {
     it('is defined', () => {
       expect(new Sportsball().getScore).toBeDefined();
