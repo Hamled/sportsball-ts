@@ -3,9 +3,13 @@ export enum TurnResult {
 }
 
 export class Sportsball {
+  private away: number = 0;
+
   getScore(): string {
-    return 'Home: 0 Away: 0';
+    return `Home: 0 Away: ${this.away}`;
   }
 
-  addEntry(_result: TurnResult) {}
+  addEntry(_result: TurnResult) {
+    this.away++;
+  }
 }
