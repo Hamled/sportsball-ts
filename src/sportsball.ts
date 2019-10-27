@@ -25,6 +25,7 @@ export class Sportsball {
 
     if(team.outs == 3) {
       this.awayTurn = !this.awayTurn;
+      team.outs = 0;
     }
   }
 
