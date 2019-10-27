@@ -23,18 +23,18 @@ describe('Sportsball', () => {
       expect(new Sportsball().getScore).toBeDefined();
     });
 
-    it('with no turns it returns score of 0-0', () => {
+    it('scores no entries', () => {
       expect(new Sportsball().getScore()).toEqual('Home: 0 Away: 0');
     });
 
-    it('with 1 home run it returns score of 0-1', () => {
+    it('scores home runs', () => {
       const sb = new Sportsball();
       sb.addEntry(TurnResult.HOME_RUN);
 
       expect(sb.getScore()).toEqual('Home: 0 Away: 1');
     });
 
-    it('scores outs and home runs', () => {
+    it('scores outs', () => {
       const sb = new Sportsball();
       sb.addEntry(TurnResult.OUT);
       sb.addEntry(TurnResult.OUT);
