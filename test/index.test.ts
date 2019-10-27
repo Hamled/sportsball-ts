@@ -9,9 +9,24 @@ describe('Sportsball', () => {
     it('scores a tie game with no points', () => {
       expect((new Sportsball).getScore()).toEqual('Home: 0 Away: 0')
     })
-    it('score is 1 after one homerun', () => {
-      const sb = new Sportsball()
+    it('scores plays resulting in one point', () => {
+      let sb = new Sportsball()
       sb.addEntry(4)
+      expect(sb.getScore()).toEqual('Home: 0 Away: 1')
+
+      sb = new Sportsball()
+      sb.addEntry(1)
+      sb.addEntry(3)
+      expect(sb.getScore()).toEqual('Home: 0 Away: 1')
+
+      sb = new Sportsball()
+      sb.addEntry(2)
+      sb.addEntry(3)
+      expect(sb.getScore()).toEqual('Home: 0 Away: 1')
+
+      sb = new Sportsball()
+      sb.addEntry(3)
+      sb.addEntry(3)
       expect(sb.getScore()).toEqual('Home: 0 Away: 1')
     })
   })
