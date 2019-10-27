@@ -53,5 +53,23 @@ describe('Sportsball', () => {
 
       expect(sb.getScore()).toEqual('Home: 1 Away: 3');
     });
+
+    it('scores singles, doubles, and triples', () => {
+      const sb = new Sportsball();
+      // If one player is on base, a triple scores
+      sb.addEntry(TurnResult.SINGLE);
+      sb.addEntry(TurnResult.TRIPLE);
+      expect(sb.getScore()).toEqual('Home: 0 Away: 1');
+
+      // If two players are on base, a double scores
+      sb.addEntry(TurnResult.SINGLE);
+      sb.addEntry(TurnResult.DOUBLE);
+      expect(sb.getScore()).toEqual('Home: 0 Away: 2');
+
+      // If bases are loaded, a single scores
+      sb.addEntry(TurnResult.SINGLE);
+      sb.addEntry(TurnResult.SINGLE);
+      expect(sb.getScore()).toEqual('Home: 0 Away: 3');
+    });
   });
 });
