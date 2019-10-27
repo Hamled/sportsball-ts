@@ -1,5 +1,6 @@
 const sportsball = () => ({
-  getScore() {}
+  getScore() {},
+  addEntry() {},
 })
 describe('sportsball', () => {
   it('exists', () => expect(sportsball).toBeDefined())
