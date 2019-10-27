@@ -1,4 +1,4 @@
-import {Sportsball} from '../src/sportsball';
+import {Sportsball, TurnResult} from '../src/sportsball';
 
 describe('Sportsball', () => {
   it('is defined', () => {
@@ -8,6 +8,13 @@ describe('Sportsball', () => {
   describe('#addEntry', () => {
     it('is defined', () => {
       expect(new Sportsball().addEntry).toBeDefined();
+    });
+
+    it('accepts the turn result as a parameter', () => {
+      const result = TurnResult.HOME_RUN;
+      expect(() => {
+        new Sportsball().addEntry(result);
+      }).not.toThrowError();
     });
   });
 
