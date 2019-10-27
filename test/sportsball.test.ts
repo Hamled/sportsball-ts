@@ -71,5 +71,28 @@ describe('Sportsball', () => {
       sb.addEntry(TurnResult.SINGLE);
       expect(sb.getScore()).toEqual('Home: 0 Away: 3');
     });
+
+    it('scores multiple runs batted in', () => {
+      const sb = new Sportsball();
+      // If bases are loaded, home run scores 4
+      sb.addEntry(TurnResult.TRIPLE);
+      sb.addEntry(TurnResult.DOUBLE);
+      sb.addEntry(TurnResult.SINGLE);
+      sb.addEntry(TurnResult.HOME_RUN);
+      expect(sb.getScore()).toEqual('Home: 0 Away: 4');
+
+      // If bases are loaded, triple scores 3
+      sb.addEntry(TurnResult.TRIPLE);
+      sb.addEntry(TurnResult.DOUBLE);
+      sb.addEntry(TurnResult.SINGLE);
+      sb.addEntry(TurnResult.TRIPLE);
+      expect(sb.getScore()).toEqual('Home: 0 Away: 7');
+
+      // If bases are loaded, double scores 2
+      sb.addEntry(TurnResult.DOUBLE);
+      sb.addEntry(TurnResult.SINGLE);
+      sb.addEntry(TurnResult.DOUBLE);
+      expect(sb.getScore()).toEqual('Home: 0 Away: 9');
+    });
   });
 });
