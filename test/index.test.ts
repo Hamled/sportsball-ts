@@ -1,6 +1,6 @@
 class Sportsball {
-  getScore() {}
-  addEntry() {}
+  getScore() {return 'Home: 0 Away: 0'}
+  addEntry(_entry) {}
 }
 describe('Sportsball', () => {
   it('exists', () => expect(Sportsball).toBeDefined())
