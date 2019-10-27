@@ -1,6 +1,8 @@
 const sportsball = () => ({
-  getScore() {},
-  addEntry() {},
+  getScore() {
+    return 'Home: 0 Away: 0'
+  },
+  addEntry(_entry) {},
 })
 describe('sportsball', () => {
   it('exists', () => expect(sportsball).toBeDefined())
