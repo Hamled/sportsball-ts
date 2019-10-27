@@ -1,3 +1,5 @@
 export class Sportsball {
-  getScore() {}
+  getScore() {
+    return 'Home: 0 Away: 0'
+  }
 }
