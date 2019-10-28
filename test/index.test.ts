@@ -1,9 +1,19 @@
-const sportsball = () => ({
-  getScore() {
-    return 'Home: 0 Away: 0'
-  },
-  addEntry(_entry) {},
-})
+const sportsball = () => {
+  const entries = []
+  return {
+    getScore() {
+      const points = entries.reduce(({points,max}, entry, i) => {
+        if(points > 0 || entry == 4 || max + 1 > 3) return {points: points + 1, max}
+        if(entry > max) return {points, max: entry}
+        return {points, max: max + 1}
+      }, {points: 0, max: 0}).points
+      return `Home: 0 Away: ${points}`
+    },
+    addEntry(entry) {
+      entries.unshift(entry)
+    },
+  }
+}
 describe('sportsball', () => {
   it('exists', () => expect(sportsball).toBeDefined())
   it('returns something', () => expect(sportsball()).toBeDefined())
@@ -44,12 +54,12 @@ describe('sportsball', () => {
               const sb = sportsball()
               const prefix = frame.slice(0, i-1);
               [...prefix, 4, ...suffix].forEach(e => sb.addEntry(e))
-              expect(sb.getScore()).toEqual(`Home: Away: ${i}`)
+              expect(sb.getScore()).toEqual(`Home: 0 Away: ${i}`)
             })
             pSuffixes.forEach(suffix => {
               const sb = sportsball()
               frame.concat(suffix).forEach(e => sb.addEntry(e))
-              expect(sb.getScore()).toEqual(`Home: Away: ${i}`)
+              expect(sb.getScore()).toEqual(`Home: 0 Away: ${i}`)
             })
           })
         })
