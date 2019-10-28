@@ -6,5 +6,6 @@ describe('sportsball', () => {
   describe('called', () => {
     it('returns an object', () => expect(sportsball()).toBeInstanceOf(Object))
     it('has addEntry method', () => expect(sportsball().addEntry).toBeInstanceOf(Function))
+    it('has getScore method', () => expect(sportsball().getScore).toBeInstanceOf(Function))
   })
 })
