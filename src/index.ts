@@ -1,4 +1,6 @@
 export const sportsball = () => ({
-  addEntry() {},
-  getScore() {}
+  addEntry(_entry) {},
+  getScore() {
+    return 'Home: 0 Away: 0'
+  }
 })
