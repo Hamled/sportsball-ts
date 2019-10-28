@@ -2,15 +2,26 @@ const sportsball = () => {
   const entries = []
   return {
     getScore() {
-      const points = entries.reduce(({points,max}, entry, i) => {
-        if(points > 0 || entry == 4 || max + 1 > 3) return {points: points + 1, max}
-        if(entry > max) return {points, max: entry}
-        return {points, max: max + 1}
-      }, {points: 0, max: 0}).points
-      return `Home: 0 Away: ${points}`
+      const frames = entries.reduce(({frames, outs}, e) => {
+        if(e === 0) {
+          if(outs > 1) return {frames: [[], ...frames], outs: 0}
+          return {frames, outs: outs + 1}
+        }
+        const [frame, ...rest] = frames
+        return {frames: [[e, ...frame], ...rest], outs}
+      }, {frames: [[]], outs: 0}).frames
+      const points = frames.reduce((points, frame, i) => {
+        points[i % 2] += frame.reduce(({points, max}, entry) => {
+          if(points > 0 || entry == 4 || max + 1 > 3) return {points: points + 1, max}
+          if(entry > max) return {points, max: entry}
+          return {points, max: max + 1}
+        }, {points: 0, max: 0}).points
+        return points
+      }, [0, 0])
+      return `Home: ${points[1]} Away: ${points[0]}`
     },
     addEntry(entry) {
-      entries.unshift(entry)
+      entries.push(entry)
     },
   }
 }
