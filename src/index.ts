@@ -8,7 +8,7 @@ export const sportsball = () => {
   const score = () => (entries - load) + Math.max(0, load - (BASES + 1 - last))
   const reset = () => {
     entries = 0
-    last = BASES + 1
+    last = 0
     load = 0
     outs = 0
     isAway = !isAway
@@ -18,17 +18,20 @@ export const sportsball = () => {
   return {
     addEntry(entry) {
       if(entry === 0) {
-        isAway ? away += score() : home += score()
-        reset()
+        outs++
+        if(outs > 2) {
+          isAway ? away += score() : home += score()
+          reset()
+        }
         return
       }
 
       entries++
       last = entry
-      load = (entry === 4) ? 0 : load + 1
+      load = Math.min(BASES + 1 - entry, load + 1)
     },
     getScore() {
-      const curAway = isAway ? away + score() : away;
+      const curAway = isAway ? away + score() : away
       const curHome = isAway ? home : home + score()
       return `Home: ${curHome} Away: ${curAway}`
     },
