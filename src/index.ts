@@ -13,7 +13,7 @@ export const sportsball = (bases = 3) => {
     let need = 3
     for(let i = cursor; i < FRAME_LEN; i++) {
       const e = frame[i]
-      if(e === 4) return FRAME_LEN - i
+      if(e === (bases + 1)) return FRAME_LEN - i
       if(e === 3 || need < 2) return FRAME_LEN - i - 1
       if(e === 2 || e === 1) need -= e
     }
