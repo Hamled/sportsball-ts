@@ -50,4 +50,18 @@ describe('sportsball', () => {
       })
     })
   })
+  const BASES = 5
+  describe(`called with ${BASES} bases`, () => {
+    describe('getScore', () => {
+      for(let entry = BASES + 1; entry > 0; entry--) {
+        const neededEntries = 2 + BASES - entry
+        it(`scores frames including entries of ${entry}`, () => {
+          const sb = sportsball(BASES)
+          for(let i = 0; i < neededEntries; i++) sb.addEntry(entry)
+
+          expect(sb.getScore()).toEqual('Home: 0 Away: 1')
+        })
+      }
+    })
+  })
 })
