@@ -3,7 +3,8 @@ import {sportsball} from '../src'
 describe('sportsball',() => {
   it('exists', () => expect(sportsball).toBeDefined())
   it('can be called', () => expect(sportsball).toBeInstanceOf(Function))
-  describe('called', () => {
+  it('accepts optional number of bases', () => expect(sportsball(5)).toBeDefined())
+  describe('called with 3 bases', () => {
     it('returns an object', () => expect(sportsball()).toBeInstanceOf(Object))
     it('has an addEntry method', () => expect(sportsball().addEntry).toBeInstanceOf(Function))
     it('has a getScore method', () => expect(sportsball().getScore).toBeInstanceOf(Function))
