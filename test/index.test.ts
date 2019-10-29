@@ -55,4 +55,16 @@ describe('sportsball',() => {
       })
     })
   })
+
+  const BASES = 5
+  describe(`called with ${BASES} bases`, () => {
+    describe('getScore', () => {
+      it(`scores frames including entries of ${BASES + 1}`, () => {
+        const sb = sportsball(BASES)
+        sb.addEntry(BASES + 1)
+
+        expect(sb.getScore()).toEqual('Home: 0 Away: 1')
+      })
+    })
+  })
 })
