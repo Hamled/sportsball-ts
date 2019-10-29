@@ -8,7 +8,7 @@ export const sportsball = () => {
       const e = frame[i]
       if(e === 4) return FRAME_LENGTH - i
       if(e === 3 || need <= 1) return FRAME_LENGTH - i - 1
-      if(e === 2) need -= e
+      if(e === 2 || e === 1) need -= e
     }
     return 0
   }
