@@ -19,6 +19,13 @@ describe('sportsball', () => {
 
         expect(sb.getScore()).toEqual('Home: 0 Away: 1')
       })
+      it('scores 1 point for anything followed by a triple', () => {
+        const sb = sportsball()
+        sb.addEntry(1)
+        sb.addEntry(3)
+
+        expect(sb.getScore()).toEqual('Home: 0 Away: 1')
+      })
     })
   })
 })
