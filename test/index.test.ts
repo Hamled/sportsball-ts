@@ -16,4 +16,14 @@ describe('sportsball', () => {
     })
   })
   it('can be called with number of bases', () => expect(() => sportsball(3)).not.toThrowError())
+  describe('called with 3 bases', () => {
+    describe('getScore', () => {
+      it('scores frames including home runs', () => {
+        const sb = sportsball(3);
+        sb.addEntry(4)
+
+        expect(sb.getScore()).toEqual('Home: 0 Away: 1')
+      })
+    })
+  })
 })
