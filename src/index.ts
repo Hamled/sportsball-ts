@@ -1,1 +1,1 @@
-export const sportsball = {}
+export const sportsball = () => ({})
