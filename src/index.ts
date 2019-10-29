@@ -1,3 +1,4 @@
 export const sportsball = (_bases) => ({
-  addEntry() {}
+  addEntry() {},
+  getScore() {}
 })
