@@ -7,5 +7,12 @@ describe('sportsball',() => {
     it('returns an object', () => expect(sportsball()).toBeInstanceOf(Object))
     it('has an addEntry method', () => expect(sportsball().addEntry).toBeInstanceOf(Function))
     it('has a getScore method', () => expect(sportsball().getScore).toBeInstanceOf(Function))
+    describe('getScore', () => {
+      it('scores frames including no turns', () => {
+        const sb = sportsball()
+
+        expect(sb.getScore()).toEqual('Home: 0 Away: 0')
+      })
+    })
   })
 })
