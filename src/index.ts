@@ -1,1 +1,1 @@
-export const sportsball = (_bases) => {}
+export const sportsball = (_bases) => ({})
