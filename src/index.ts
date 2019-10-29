@@ -7,10 +7,7 @@ export const sportsball = () => {
 
   const score = () => (entries - load) + Math.max(0, load - (BASES + 1 - last))
   const reset = () => {
-    entries = 0
-    last = 0
-    load = 0
-    outs = 0
+    entries = last = load = outs = 0
     isAway = !isAway
   }
 
@@ -18,8 +15,7 @@ export const sportsball = () => {
   return {
     addEntry(entry) {
       if(entry === 0) {
-        outs++
-        if(outs > 2) {
+        if(++outs > 2) {
           isAway ? away += score() : home += score()
           reset()
         }
