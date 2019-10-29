@@ -52,6 +52,17 @@ describe('sportsball', () => {
 
         expect(sb.getScore()).toEqual('Home: 1 Away: 0')
       })
+      it('scores odd frames for away team', () => {
+        const sb = sportsball()
+        sb.addEntry(4)
+        sb.addEntry(4)
+        sb.addEntry(0)
+        sb.addEntry(0)
+        sb.addEntry(0)
+        sb.addEntry(4)
+
+        expect(sb.getScore()).toEqual('Home: 1 Away: 2')
+      })
     })
   })
 })
