@@ -16,6 +16,7 @@ describe('sportsball', () => {
       it('scores 1 point for a home run', () => {
         const sb = sportsball()
         sb.addEntry(4)
+        sb.addEntry(2)
 
         expect(sb.getScore()).toEqual('Home: 0 Away: 1')
       })
@@ -23,6 +24,14 @@ describe('sportsball', () => {
         const sb = sportsball()
         sb.addEntry(1)
         sb.addEntry(3)
+
+        expect(sb.getScore()).toEqual('Home: 0 Away: 1')
+      })
+      it('scores 1 point for two entries followed by a double', () => {
+        const sb = sportsball()
+        sb.addEntry(1)
+        sb.addEntry(1)
+        sb.addEntry(2)
 
         expect(sb.getScore()).toEqual('Home: 0 Away: 1')
       })
