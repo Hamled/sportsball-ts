@@ -4,12 +4,11 @@ export const sportsball = (bases) => {
   let cursor = FRAME_LEN
 
   const scoreFrame = () => {
-    let need = 3
+    let max = 0
     for(let i = cursor; i < FRAME_LEN; i++) {
       const e = frame[i]
-      if(e === 4) return FRAME_LEN - i
-      if(e === 3 || need < 2) return FRAME_LEN - i - 1
-      if(e === 2 || e === 1) need -= e
+      max = (e > max) ? e : (max + 1)
+      if(bases - max < 0) return FRAME_LEN - i
     }
 
     return 0
