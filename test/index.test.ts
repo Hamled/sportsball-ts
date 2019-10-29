@@ -5,6 +5,7 @@ describe('sportsball', () => {
   it('can be called', () => expect(sportsball).toBeInstanceOf(Function))
   describe('called', () => {
     it('returns an object', () => expect(sportsball(0)).toBeInstanceOf(Object))
+    it('has an addEntry method', () => expect(sportsball(0).addEntry).toBeInstanceOf(Function))
   })
   it('can be called with number of bases', () => expect(() => sportsball(3)).not.toThrowError())
 })
