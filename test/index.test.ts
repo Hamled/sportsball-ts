@@ -39,6 +39,15 @@ describe('sportsball', () => {
 
         expect(sb.getScore()).toEqual('Home: 0 Away: 1')
       })
+      it('scores frames including singles', () => {
+        const sb = sportsball(3)
+        sb.addEntry(1)
+        sb.addEntry(1)
+        sb.addEntry(1)
+        sb.addEntry(1)
+
+        expect(sb.getScore()).toEqual('Home: 0 Away: 1')
+      })
     })
   })
 })
