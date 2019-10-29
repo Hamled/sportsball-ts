@@ -10,7 +10,7 @@ export const sportsball = () => {
       const e = frame[i]
       if(e === 4) return FRAME_LEN - i
       if(e === 3 || need < 2) return FRAME_LEN - i - 1
-      if(e === 2) need -= e
+      if(e === 2 || e === 1) need -= e
     }
 
     return 0
