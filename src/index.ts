@@ -1,6 +1,6 @@
 const FRAME_LEN = 4
 
-export const sportsball = () => {
+export const sportsball = (bases = 3) => {
   let frame = Array(FRAME_LEN)
   let cursor = FRAME_LEN
 
