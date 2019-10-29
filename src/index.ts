@@ -1,3 +1,5 @@
 export const sportsball = () => ({
-  getScore() {},
+  getScore() {
+    return 'Home: 0 Away: 0'
+  },
 })
