@@ -6,6 +6,7 @@ export const sportsball = () => {
     for(let i = cursor; i < FRAME_LENGTH; i++) {
       const e = frame[i]
       if(e === 4) return FRAME_LENGTH - i
+      if(e === 3) return FRAME_LENGTH - i - 1
     }
     return 0
   }
