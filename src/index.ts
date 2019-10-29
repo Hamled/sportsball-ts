@@ -2,12 +2,17 @@ const BASES = 3
 const BUFFER_LEN = BASES + 1
 export const sportsball = () => {
   const buffer = Array(BUFFER_LEN)
-  let cursor, frameLen, points
+  let cursor, frameLen, points, outs
+  let away = 0
+  let home = 0
+  let isAway = false
 
-  const setup = () => {
+  const setupFrame = () => {
     cursor = 0
     frameLen = 0
     points = 0
+    outs = 0
+    isAway = !isAway
   }
 
   const scoreFrame = () => {
@@ -21,19 +26,32 @@ export const sportsball = () => {
     return 0
   }
 
-  setup()
+  setupFrame()
   return {
     addEntry(entry) {
-      buffer[cursor] = entry
-      cursor = (cursor + 1) % BUFFER_LEN
-      if(frameLen > BUFFER_LEN) {
-        points++
-      } else {
-        frameLen++
+      if(entry !== 0) {
+        buffer[cursor] = entry
+        cursor = (cursor + 1) % BUFFER_LEN
+        if(frameLen > BUFFER_LEN) {
+          points++
+        } else {
+          frameLen++
+        }
+        return
+      }
+
+      outs += 1
+      if(outs > 2) {
+        const score = scoreFrame()
+        isAway ? away += score : home += score
+        setupFrame()
       }
     },
     getScore() {
-      return `Home: 0 Away: ${scoreFrame()}`
+      const curScore = scoreFrame()
+      const curAway = isAway ? away + curScore : away
+      const curHome = isAway ? home : away + curScore
+      return `Home: ${curHome} Away: ${curAway}`
     },
   }
 }
