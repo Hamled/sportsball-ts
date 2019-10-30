@@ -1,13 +1,14 @@
+const BASES = 3
 export const sportsball = () => {
   let runners = 0
-  let since4 = 0
-  const score = () => runners - since4
-  
+  let unscored = 0
+  const score = () => runners - unscored
+
   return {
     addEntry(entry) {
       runners++
-      since4++
-      if(entry === 4) since4 = 0
+      unscored++
+      if(entry >= BASES) unscored = (BASES + 1 - entry)
     },
     getScore() {
       return `Home: 0 Away: ${score()}`
