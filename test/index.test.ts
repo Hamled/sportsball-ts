@@ -1,5 +1,11 @@
 import {sportsball} from '../src'
 
 describe('sportsball', () => {
-  it('has a getScore method', () => expect(sportsball().getScore).toBeInstanceOf(Function))
+  describe('getScore', () => {
+    it('scores 0 points for no runners', () => {
+      const sb = sportsball()
+
+      expect(sb.getScore()).toEqual('Home: 0 Away: 0')
+    })
+  })
 })
