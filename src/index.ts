@@ -6,8 +6,7 @@ export const sportsball = () => {
   return {
     addEntry(entry) {
       runners++
-      onBase++
-      if(entry >= BASES) onBase = BASES - entry + 1
+      onBase = Math.min(BASES - entry, onBase) + 1
     },
     getScore() {
       return `Home: 0 Away: ${runners - onBase}`
